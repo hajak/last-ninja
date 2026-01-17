@@ -172,7 +172,7 @@ export function createHUD(): HTMLElement {
     </div>
 
     <!-- Version Display (top-right) -->
-    <div class="version-display">V2.0.0a</div>
+    <div class="version-display">V2.0.1</div>
 
     <!-- Debug Panel -->
     <div class="debug-panel" style="display: none;">

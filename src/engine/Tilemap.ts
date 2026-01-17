@@ -77,6 +77,14 @@ export class Tilemap {
   }
 
   /**
+   * Update tile walkability (e.g., when a door opens)
+   */
+  setTileWalkable(col: number, row: number, walkable: boolean): void {
+    if (!this.isValidPosition(col, row)) return;
+    this.tiles[row][col].walkable = walkable;
+  }
+
+  /**
    * Get all tiles (for debug view)
    */
   getAllTiles(): TileData[][] {

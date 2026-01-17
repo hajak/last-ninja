@@ -91,8 +91,8 @@ export function createCourtyardLevel(): LevelData {
 
   // Building (NW corner)
   fillRect(2, 2, 6, 5, 'wall', 0);
-  // Door opening
-  setTile(4, 5, 'stone', 0);
+  // Door opening - initially blocked by door
+  setTile(4, 5, 'stone', 0, { walkable: false }); // Door blocks this
   setTile(5, 5, 'stone', 0);
 
   // Water feature (SW area)

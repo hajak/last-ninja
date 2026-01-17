@@ -158,4 +158,4 @@ The UI uses a token-based design system defined in `src/ui/styles/tokens.css`:
 - **Spacing**: 4px base unit scale (0.25rem increments)
 - **Animations**: Fast (100ms), normal (200ms), slow (300ms)
 
-Current version: **2.0.0**
+Current version: **2.0.1**

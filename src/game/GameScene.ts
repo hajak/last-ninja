@@ -389,6 +389,15 @@ export class GameScene {
           if (this.propManager) {
             this.propManager.setPropState(effect.targetId, effect.newState);
           }
+          // Update tile walkability for doors
+          if (effect.newState === 'open' || effect.newState === 'closed') {
+            const interactable = this.interactables.get(effect.targetId);
+            if (interactable) {
+              const col = Math.floor(interactable.position.x);
+              const row = Math.floor(interactable.position.y);
+              this.tilemap.setTileWalkable(col, row, effect.newState === 'open');
+            }
+          }
           break;
 
         case 'climb':

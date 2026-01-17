@@ -60,7 +60,8 @@ export class PropManager {
     const screen = worldToScreen(position);
     visual.x = screen.x;
     visual.y = screen.y;
-    visual.zIndex = getDepthValue(position);
+    // Add offset to ensure props render above tiles at same depth
+    visual.zIndex = getDepthValue(position) + 100;
 
     const prop: Prop = {
       id: config.id,
@@ -106,7 +107,7 @@ export class PropManager {
       const screen = worldToScreen(prop.position);
       newVisual.x = screen.x;
       newVisual.y = screen.y;
-      newVisual.zIndex = prop.container.zIndex;
+      newVisual.zIndex = getDepthValue(prop.position) + 100;
       newVisual.alpha = prop.currentAlpha;
 
       this.container.removeChild(prop.container);

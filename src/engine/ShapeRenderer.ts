@@ -320,33 +320,132 @@ export function createPropShape(
 }
 
 /**
- * Create a door/gate shape
+ * Create a door/gate shape - isometric upright door
+ * In isometric view, the door faces diagonally (SE direction)
  */
 export function createDoorShape(isOpen: boolean = false): Container {
   const container = new Container();
   const g = new Graphics();
 
+  const doorHeight = 52;
+  const doorWidth = TILE_WIDTH * 0.6; // Width in isometric space
+  const doorDepth = 6; // Thickness of door
+
+  // Colors
+  const doorColorFront = 0x8b5a2b; // Brown wood
+  const doorColorSide = shadeColor(doorColorFront, -0.3);
+  const doorColorTop = shadeColor(doorColorFront, 0.1);
+  const frameColor = 0x4a3728;
+  const metalColor = 0x4a4a4a;
+
   if (isOpen) {
-    // Open gate - just the frame
-    g.rect(-20, -48, 4, 48);
-    g.fill(0x5d4037);
-    g.rect(16, -48, 4, 48);
-    g.fill(0x5d4037);
-    g.rect(-20, -52, 40, 6);
-    g.fill(0x4e342e);
+    // Open door - door swung inward, showing opening
+    // Frame posts (isometric)
+    // Left post
+    g.poly([
+      { x: -doorWidth / 2, y: TILE_HEIGHT / 4 },
+      { x: -doorWidth / 2, y: TILE_HEIGHT / 4 - doorHeight },
+      { x: -doorWidth / 2 + 4, y: TILE_HEIGHT / 4 - 2 - doorHeight },
+      { x: -doorWidth / 2 + 4, y: TILE_HEIGHT / 4 - 2 },
+    ]);
+    g.fill(frameColor);
+
+    // Right post
+    g.poly([
+      { x: doorWidth / 2 - 4, y: -TILE_HEIGHT / 4 - 2 },
+      { x: doorWidth / 2 - 4, y: -TILE_HEIGHT / 4 - 2 - doorHeight },
+      { x: doorWidth / 2, y: -TILE_HEIGHT / 4 - doorHeight },
+      { x: doorWidth / 2, y: -TILE_HEIGHT / 4 },
+    ]);
+    g.fill(frameColor);
+
+    // Open passage floor hint
+    g.poly([
+      { x: -doorWidth / 2 + 6, y: TILE_HEIGHT / 4 - 4 },
+      { x: 0, y: 0 },
+      { x: doorWidth / 2 - 6, y: -TILE_HEIGHT / 4 + 4 },
+      { x: 0, y: -4 },
+    ]);
+    g.fill({ color: 0x5a7a5a, alpha: 0.5 });
+
   } else {
-    // Closed gate
-    g.rect(-20, -48, 40, 48);
-    g.fill(0x6d4c41);
-    // Vertical bars
-    for (let i = -12; i <= 12; i += 8) {
-      g.rect(i, -44, 3, 40);
-      g.fill(0x37474f);
+    // Closed door - isometric rectangle standing up
+    // Door follows isometric angle (NE-SW orientation)
+
+    // Front face of door (main visible surface)
+    g.poly([
+      { x: -doorWidth / 2, y: TILE_HEIGHT / 4 },           // bottom-left
+      { x: -doorWidth / 2, y: TILE_HEIGHT / 4 - doorHeight }, // top-left
+      { x: doorWidth / 2, y: -TILE_HEIGHT / 4 - doorHeight }, // top-right
+      { x: doorWidth / 2, y: -TILE_HEIGHT / 4 },           // bottom-right
+    ]);
+    g.fill(doorColorFront);
+
+    // Top edge of door (shows thickness)
+    g.poly([
+      { x: -doorWidth / 2, y: TILE_HEIGHT / 4 - doorHeight },
+      { x: -doorWidth / 2 + doorDepth, y: TILE_HEIGHT / 4 - doorHeight - 3 },
+      { x: doorWidth / 2 + doorDepth, y: -TILE_HEIGHT / 4 - doorHeight - 3 },
+      { x: doorWidth / 2, y: -TILE_HEIGHT / 4 - doorHeight },
+    ]);
+    g.fill(doorColorTop);
+
+    // Right edge of door (shows thickness)
+    g.poly([
+      { x: doorWidth / 2, y: -TILE_HEIGHT / 4 - doorHeight },
+      { x: doorWidth / 2 + doorDepth, y: -TILE_HEIGHT / 4 - doorHeight - 3 },
+      { x: doorWidth / 2 + doorDepth, y: -TILE_HEIGHT / 4 - 3 },
+      { x: doorWidth / 2, y: -TILE_HEIGHT / 4 },
+    ]);
+    g.fill(doorColorSide);
+
+    // Wood plank horizontal lines
+    for (let i = 1; i < 5; i++) {
+      const y1 = TILE_HEIGHT / 4 - (doorHeight * i / 5);
+      const y2 = -TILE_HEIGHT / 4 - (doorHeight * i / 5);
+      g.moveTo(-doorWidth / 2 + 3, y1);
+      g.lineTo(doorWidth / 2 - 3, y2);
+      g.stroke({ color: shadeColor(doorColorFront, -0.2), width: 1 });
     }
-    // Horizontal bar
-    g.rect(-18, -28, 36, 4);
-    g.fill(0x455a64);
+
+    // Metal bands
+    const bandY1a = TILE_HEIGHT / 4 - doorHeight * 0.2;
+    const bandY1b = -TILE_HEIGHT / 4 - doorHeight * 0.2;
+    g.moveTo(-doorWidth / 2, bandY1a);
+    g.lineTo(doorWidth / 2, bandY1b);
+    g.lineTo(doorWidth / 2, bandY1b - 4);
+    g.lineTo(-doorWidth / 2, bandY1a - 4);
+    g.closePath();
+    g.fill(metalColor);
+
+    const bandY2a = TILE_HEIGHT / 4 - doorHeight * 0.8;
+    const bandY2b = -TILE_HEIGHT / 4 - doorHeight * 0.8;
+    g.moveTo(-doorWidth / 2, bandY2a);
+    g.lineTo(doorWidth / 2, bandY2b);
+    g.lineTo(doorWidth / 2, bandY2b - 4);
+    g.lineTo(-doorWidth / 2, bandY2a - 4);
+    g.closePath();
+    g.fill(metalColor);
+
+    // Door handle/ring
+    const handleX = doorWidth / 4;
+    const handleY = -doorHeight / 2;
+    g.circle(handleX, handleY, 4);
+    g.fill(0xc9a227);
+    g.circle(handleX, handleY, 2);
+    g.fill(0x8b7020);
   }
+
+  // Shadow at base
+  const shadow = new Graphics();
+  shadow.poly([
+    { x: -doorWidth / 2 - 4, y: TILE_HEIGHT / 4 + 4 },
+    { x: doorWidth / 2 - 4, y: -TILE_HEIGHT / 4 + 4 },
+    { x: doorWidth / 2 + 8, y: -TILE_HEIGHT / 4 + 8 },
+    { x: -doorWidth / 2 + 8, y: TILE_HEIGHT / 4 + 8 },
+  ]);
+  shadow.fill({ color: 0x000000, alpha: 0.3 });
+  container.addChildAt(shadow, 0);
 
   container.addChild(g);
   return container;

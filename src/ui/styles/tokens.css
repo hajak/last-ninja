@@ -1,0 +1,164 @@
+/* ============================================
+   SHADOW NINJA - Design System Tokens
+   ============================================ */
+
+:root {
+  /* === COLOR PALETTE === */
+
+  /* Background layers (dark to light) */
+  --color-bg-deep: #0a0b0f;
+  --color-bg-base: #12141a;
+  --color-bg-elevated: #1a1d26;
+  --color-bg-surface: #242836;
+  --color-bg-hover: #2d3242;
+
+  /* Primary accent (cyan/teal ninja theme) */
+  --color-primary-dark: #0d4f5c;
+  --color-primary: #14b8a6;
+  --color-primary-light: #5eead4;
+  --color-primary-glow: rgba(20, 184, 166, 0.4);
+
+  /* Secondary accent (warm orange for alerts/combat) */
+  --color-secondary-dark: #7c2d12;
+  --color-secondary: #f97316;
+  --color-secondary-light: #fdba74;
+  --color-secondary-glow: rgba(249, 115, 22, 0.4);
+
+  /* Danger/health */
+  --color-danger-dark: #7f1d1d;
+  --color-danger: #ef4444;
+  --color-danger-light: #fca5a5;
+  --color-danger-glow: rgba(239, 68, 68, 0.4);
+
+  /* Success/stealth */
+  --color-success-dark: #14532d;
+  --color-success: #22c55e;
+  --color-success-light: #86efac;
+  --color-success-glow: rgba(34, 197, 94, 0.4);
+
+  /* Warning/alert state */
+  --color-warning-dark: #713f12;
+  --color-warning: #eab308;
+  --color-warning-light: #fde047;
+  --color-warning-glow: rgba(234, 179, 8, 0.4);
+
+  /* Text hierarchy */
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-text-disabled: #475569;
+
+  /* Borders and dividers */
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+
+  /* === TYPOGRAPHY === */
+
+  /* Font families */
+  --font-family-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Font sizes (using modular scale 1.25) */
+  --font-size-xs: 0.64rem;   /* 10.24px */
+  --font-size-sm: 0.8rem;    /* 12.8px */
+  --font-size-md: 1rem;      /* 16px */
+  --font-size-lg: 1.25rem;   /* 20px */
+  --font-size-xl: 1.563rem;  /* 25px */
+  --font-size-2xl: 1.953rem; /* 31.25px */
+  --font-size-3xl: 2.441rem; /* 39px */
+
+  /* Font weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Letter spacing */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.05em;
+  --letter-spacing-wider: 0.1em;
+
+  /* === SPACING === */
+
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+
+  /* === BORDERS === */
+
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  --border-width-thin: 1px;
+  --border-width-default: 2px;
+  --border-width-thick: 3px;
+
+  /* === SHADOWS === */
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5), 0 8px 10px rgba(0, 0, 0, 0.4);
+
+  --shadow-glow-primary: 0 0 20px var(--color-primary-glow);
+  --shadow-glow-danger: 0 0 20px var(--color-danger-glow);
+  --shadow-glow-warning: 0 0 20px var(--color-warning-glow);
+
+  /* === TRANSITIONS === */
+
+  --duration-instant: 50ms;
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* === Z-INDEX LAYERS === */
+
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-tooltip: 500;
+  --z-max: 9999;
+
+  /* === GAME-SPECIFIC === */
+
+  /* Tile dimensions (isometric 2:1 ratio) */
+  --tile-width: 64px;
+  --tile-height: 32px;
+  --tile-depth: 16px;
+
+  /* HUD positioning */
+  --hud-margin: var(--space-4);
+  --hud-gap: var(--space-3);
+
+  /* Health/stamina bar sizes */
+  --bar-height: 6px;
+  --bar-width: 120px;
+  --bar-radius: var(--radius-full);
+}

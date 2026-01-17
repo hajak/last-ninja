@@ -1,0 +1,178 @@
+/* ============================================
+   SHADOW NINJA - Input System
+   ============================================ */
+
+import type { InputState } from './types';
+
+type KeyMap = Record<string, keyof InputState | [keyof InputState, keyof InputState]>;
+
+const KEY_BINDINGS: KeyMap = {
+  // Movement
+  KeyW: 'moveY',
+  KeyS: 'moveY',
+  KeyA: 'moveX',
+  KeyD: 'moveX',
+  ArrowUp: 'moveY',
+  ArrowDown: 'moveY',
+  ArrowLeft: 'moveX',
+  ArrowRight: 'moveX',
+
+  // Actions
+  ShiftLeft: 'run',
+  ShiftRight: 'run',
+  Space: ['jump', 'jumpPressed'],
+  KeyJ: ['attack', 'attackPressed'],
+  KeyK: 'block',
+  KeyL: ['throw', 'throwPressed'],
+  KeyE: ['interact', 'interactPressed'],
+
+  // Inventory
+  Digit1: 'inventory1',
+  Digit2: 'inventory2',
+  Digit3: 'inventory3',
+
+  // System
+  Escape: ['pause', 'pausePressed'],
+  KeyF: ['debug', 'debugPressed'],
+  KeyV: ['toggleVision', 'toggleVisionPressed'],
+  KeyG: ['toggleGrid', 'toggleGridPressed'],
+  KeyH: ['toggleHelp', 'toggleHelpPressed'],
+  IntlBackslash: ['toggleDebugUI', 'toggleDebugUIPressed'],
+};
+
+const POSITIVE_KEYS = new Set([
+  'KeyD',
+  'KeyS',
+  'ArrowRight',
+  'ArrowDown',
+]);
+
+export class Input {
+  private state: InputState;
+  private keysDown: Set<string> = new Set();
+  private keysPressed: Set<string> = new Set();
+
+  constructor() {
+    this.state = this.createEmptyState();
+    this.setupListeners();
+  }
+
+  private createEmptyState(): InputState {
+    return {
+      moveX: 0,
+      moveY: 0,
+      run: false,
+      jump: false,
+      jumpPressed: false,
+      attack: false,
+      attackPressed: false,
+      block: false,
+      throw: false,
+      throwPressed: false,
+      interact: false,
+      interactPressed: false,
+      inventory1: false,
+      inventory2: false,
+      inventory3: false,
+      pause: false,
+      pausePressed: false,
+      debug: false,
+      debugPressed: false,
+      toggleVision: false,
+      toggleVisionPressed: false,
+      toggleGrid: false,
+      toggleGridPressed: false,
+      toggleHelp: false,
+      toggleHelpPressed: false,
+      toggleDebugUI: false,
+      toggleDebugUIPressed: false,
+    };
+  }
+
+  private setupListeners(): void {
+    window.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('keyup', this.onKeyUp);
+    window.addEventListener('blur', this.onBlur);
+  }
+
+  private onKeyDown = (event: KeyboardEvent): void => {
+    if (event.repeat) return;
+
+    const code = event.code;
+    if (!this.keysDown.has(code)) {
+      this.keysDown.add(code);
+      this.keysPressed.add(code);
+    }
+
+    // Prevent default for game keys
+    if (KEY_BINDINGS[code]) {
+      event.preventDefault();
+    }
+  };
+
+  private onKeyUp = (event: KeyboardEvent): void => {
+    this.keysDown.delete(event.code);
+  };
+
+  private onBlur = (): void => {
+    this.keysDown.clear();
+    this.keysPressed.clear();
+  };
+
+  update(): void {
+    // Reset state
+    this.state = this.createEmptyState();
+
+    // Process held keys
+    for (const code of this.keysDown) {
+      this.applyKeyToState(code, false);
+    }
+
+    // Process pressed keys (single frame)
+    for (const code of this.keysPressed) {
+      this.applyKeyToState(code, true);
+    }
+
+    // Clear pressed keys after processing
+    this.keysPressed.clear();
+  }
+
+  private applyKeyToState(code: string, isPress: boolean): void {
+    const binding = KEY_BINDINGS[code];
+    if (!binding) return;
+
+    if (Array.isArray(binding)) {
+      // Handle hold + press pair
+      const [holdKey, pressKey] = binding;
+      this.state[holdKey] = true as never;
+      if (isPress) {
+        this.state[pressKey] = true as never;
+      }
+    } else if (binding === 'moveX' || binding === 'moveY') {
+      // Handle axis input
+      const value = POSITIVE_KEYS.has(code) ? 1 : -1;
+      this.state[binding] = value;
+    } else {
+      // Handle boolean input
+      this.state[binding] = true as never;
+    }
+  }
+
+  getState(): Readonly<InputState> {
+    return this.state;
+  }
+
+  isKeyDown(code: string): boolean {
+    return this.keysDown.has(code);
+  }
+
+  isKeyPressed(code: string): boolean {
+    return this.keysPressed.has(code);
+  }
+
+  destroy(): void {
+    window.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('keyup', this.onKeyUp);
+    window.removeEventListener('blur', this.onBlur);
+  }
+}

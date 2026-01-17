@@ -171,6 +171,9 @@ export function createHUD(): HTMLElement {
       </div>
     </div>
 
+    <!-- Version Display (top-right) -->
+    <div class="version-display">V2.0.0a</div>
+
     <!-- Debug Panel -->
     <div class="debug-panel" style="display: none;">
       <div class="debug-panel__row"><span class="debug-panel__label">FPS:</span> 60</div>

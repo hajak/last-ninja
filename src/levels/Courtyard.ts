@@ -2,14 +2,14 @@
    SHADOW NINJA - Courtyard Level (Vertical Slice)
    ============================================ */
 
-import type { TileData, TileType } from '../engine/types';
+import type { TileData, TileType, Direction8 } from '../engine/types';
 
 interface LevelData {
   width: number;
   height: number;
   tiles: TileData[][];
   playerSpawn: { x: number; y: number };
-  enemySpawns: { type: string; x: number; y: number; patrol?: { x: number; y: number }[] }[];
+  enemySpawns: { type: string; x: number; y: number; patrol?: { x: number; y: number }[]; facing?: Direction8 }[];
   props: { type: string; x: number; y: number }[];
   interactables: { type: string; x: number; y: number; properties?: Record<string, unknown> }[];
 }
@@ -127,33 +127,48 @@ export function createCourtyardLevel(): LevelData {
     tiles,
     playerSpawn: { x: 10, y: 10 },
     enemySpawns: [
-      // Guard patrolling the courtyard
+      // Guard patrolling outer perimeter of courtyard
+      {
+        type: 'guard',
+        x: 5,
+        y: 6,
+        patrol: [
+          { x: 5, y: 6 },
+          { x: 5, y: 14 },
+          { x: 14, y: 14 },
+          { x: 14, y: 6 },
+        ],
+      },
+      // Guard patrolling inner courtyard and paths
+      {
+        type: 'guard',
+        x: 8,
+        y: 7,
+        patrol: [
+          { x: 8, y: 7 },
+          { x: 12, y: 7 },
+          { x: 12, y: 13 },
+          { x: 8, y: 13 },
+        ],
+      },
+      // Guard patrolling near water and south area
       {
         type: 'guard',
         x: 6,
-        y: 8,
+        y: 11,
         patrol: [
-          { x: 6, y: 8 },
-          { x: 6, y: 12 },
-          { x: 12, y: 12 },
-          { x: 12, y: 8 },
+          { x: 6, y: 11 },
+          { x: 6, y: 17 },
+          { x: 13, y: 17 },
+          { x: 13, y: 11 },
         ],
       },
-      // Guard on elevated platform
-      {
-        type: 'guard',
-        x: 15,
-        y: 4,
-        patrol: [
-          { x: 15, y: 4 },
-          { x: 15, y: 5 },
-        ],
-      },
-      // Archer watching from tower
+      // Archer on tower - facing east toward courtyard
       {
         type: 'archer',
-        x: 2.5,
+        x: 3,
         y: 9,
+        facing: 'E',
       },
     ],
     props: [

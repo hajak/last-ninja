@@ -168,13 +168,22 @@ export class GameScene {
         continue;
       }
 
+      // Set enemy z position to match tile elevation at spawn point
+      enemy.position.z = this.collision.getGroundElevation(enemy.position);
+
+      // Set initial facing direction if specified
+      if (enemyData.facing) {
+        enemy.facing = enemyData.facing;
+      }
+
       this.enemies.push(enemy);
       this.entities.push(enemy);
       this.entityLayer.addChild(enemy.container);
     }
 
-    // Set up player
+    // Set up player with correct elevation
     this.player.position = { x: levelData.playerSpawn.x, y: levelData.playerSpawn.y, z: 0 };
+    this.player.position.z = this.collision.getGroundElevation(this.player.position);
     this.entityLayer.addChild(this.player.container);
     this.entities.push(this.player);
 

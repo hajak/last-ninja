@@ -1,12 +1,12 @@
 /**
  * Panda & Dog - Multiplayer Client Entry Point
- * Version 3.1.0 - Visual Design Overhaul
+ * Version 3.2.0 - Bug Fixes (Hazard Collision, Interactions, Level Layout)
  */
 
 import { Application, Container } from 'pixi.js';
 import { PALETTE } from '../../shared/designTokens';
 
-const VERSION = '3.1.0';
+const VERSION = '3.2.0';
 
 interface GameState {
   app: Application;

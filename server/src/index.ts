@@ -7,10 +7,10 @@ import { WebSocketServer, WebSocket } from 'ws';
 import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { readFileSync, existsSync } from 'fs';
 import { join, extname } from 'path';
-import { RoomManager, Room } from './Room';
-import { PROTOCOL } from '../../shared/protocol';
-import type { ClientMessage, ServerMessage, EntityRespawnMessage } from '../../shared/protocol';
-import type { Role } from '../../shared/types';
+import { RoomManager, Room } from './Room.js';
+import { PROTOCOL } from '../../shared/protocol.js';
+import type { ClientMessage, ServerMessage, EntityRespawnMessage } from '../../shared/protocol.js';
+import type { Role } from '../../shared/types.js';
 
 const PORT = parseInt(process.env.PORT || '3001', 10);
 const HOST = process.env.HOST || '0.0.0.0';

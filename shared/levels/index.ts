@@ -3,12 +3,12 @@
  * Central registry for all game levels
  */
 
-import type { LevelData } from '../types';
-import { createVerticalSliceLevel } from './VerticalSlice';
-import { createWarehouseLevel } from './Warehouse';
-import { createGardensLevel } from './Gardens';
-import { createFortressLevel } from './Fortress';
-import { createTempleLevel } from './Temple';
+import type { LevelData } from '../types.js';
+import { createVerticalSliceLevel } from './VerticalSlice.js';
+import { createWarehouseLevel } from './Warehouse.js';
+import { createGardensLevel } from './Gardens.js';
+import { createFortressLevel } from './Fortress.js';
+import { createTempleLevel } from './Temple.js';
 
 // Level registry with ordered progression
 const levels: Map<string, () => LevelData> = new Map([

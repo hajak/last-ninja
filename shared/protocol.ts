@@ -14,7 +14,7 @@ import type {
   Role,
   RoomState,
   WorldPos,
-} from './types';
+} from './types.js';
 
 // ============================================
 // Protocol Constants

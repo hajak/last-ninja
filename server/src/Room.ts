@@ -3,7 +3,7 @@
  * Handles room lifecycle and game state
  */
 
-import { PROTOCOL } from '../../shared/protocol';
+import { PROTOCOL } from '../../shared/protocol.js';
 import type {
   EntityState,
   GameState,
@@ -17,9 +17,9 @@ import type {
   RoomState,
   RoomStatus,
   WorldPos,
-} from '../../shared/types';
-import { DOG, PANDA, PING, HAZARD } from '../../shared/constants';
-import { getLevel } from '../../shared/levels';
+} from '../../shared/types.js';
+import { DOG, PANDA, PING, HAZARD } from '../../shared/constants.js';
+import { getLevel } from '../../shared/levels/index.js';
 
 // ============================================
 // Types

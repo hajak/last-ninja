@@ -15,7 +15,7 @@
  * └───────────────────────────────────────────────────────────────────────────┘
  */
 
-import type { LevelData, TileData, TileType, InteractableConfig, PuzzleConfig } from '../types';
+import type { LevelData, TileData, TileType, InteractableConfig, PuzzleConfig } from '../types.js';
 
 function createTile(type: TileType, elevation = 0, walkable?: boolean): TileData {
   const defaultWalkable: Record<TileType, boolean> = {
